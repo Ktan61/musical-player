@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Playlist</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Create New Playlist</h1>
+    <button onclick="window.location.href='/'">Go Back to Home</button>
+
+    <!-- Left column: Song List with Plus Icon -->
+    <div class="left-column">
+        <h2>All Songs</h2>
+        <ul id="song-list">
+            <% songInfo.forEach(song => { %>
+                <li>
+                    <img src="<%= song.album_cover_link %>" alt="Album Cover" width="50">
+                    <p><%= song.title %> by <%= song.artist %></p>
+                    <button onclick="addToPlaylist('<%= song.id %>', '<%= song.title %>', '<%= song.artist %>', '<%= song.album_cover_link %>')">+</button>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+    
+    <!-- Right column: Playlist with Songs -->
+    <div class="right-column">
+        <h2>My Playlist</h2>
+        <ul id="playlist">
+            <!-- Playlist songs will be added here -->
+        </ul>
+        <button onclick="savePlaylist()">Save Playlist</button>
+    </div>
+
+    <script>
+        let playlist = []; // To store song details added to the playlist
+
+        // Function to add song to playlist
+        function addToPlaylist(songId, songTitle, songArtist, albumCoverLink) {
+            // Check if the song is already in the playlist
+            if (!playlist.some(song => song.id === songId)) {
+                const song = { 
+                    id: songId, 
+                    title: songTitle, 
+                    artist: songArtist, 
+                    albumCoverLink: albumCoverLink,
+                    element: null  // Will store the DOM element for the song
+                };
+
+                playlist.push(song);  // Add song to the playlist array
+
+                // Create a new list item (li) for the song
+                const songElement = document.createElement('li');
+                songElement.classList.add('playlist-song');
+                songElement.innerHTML = `
+                    <img src="${albumCoverLink}" alt="Album Cover" width="50">
+                    <strong>${songTitle}</strong> by ${songArtist}
+                    <button onclick="removeFromPlaylist(${songId})">-</button>
+                `;
+
+                // Store the song element in the playlist array
+                song.element = songElement;
+
+                // Add the song to the playlist UI (right column)
+                document.getElementById('playlist').appendChild(songElement);
+            }
+        }
+
+        // Function to remove song from playlist
+        function removeFromPlaylist(songId) {
+            // Find the song in the playlist array
+            const songIndex = playlist.findIndex(song => song.id === songId);
+            if (songIndex !== -1) {
+                const song = playlist[songIndex];
+
+                // Remove the song element from the DOM
+                song.element.remove();
+
+                // Remove the song from the playlist array
+                playlist.splice(songIndex, 1);
+
+                // Show "No songs" message if the playlist is empty
+                if (playlist.length === 0) {
+                    const emptyMessage = document.createElement('li');
+                    emptyMessage.innerText = 'No songs in your playlist.';
+                    document.getElementById('playlist').appendChild(emptyMessage);
+                }
+            }
+        }
+
+        // Function to save the playlist (send to server)
+        function savePlaylist() {
+            if (playlist.length > 0) {
+                // Send the playlist to the server (via a POST request)
+                fetch('/playlists', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ playlist: playlist })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Playlist saved!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                alert('Please add songs to your playlist!');
+            }
+        }
+    </script>
+</body>
+</html>

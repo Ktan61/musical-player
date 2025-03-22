@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Playlist</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Create New Playlist</h1>
+    <button onclick="window.location.href='/'">Go Back to Home</button>
+
+    <!-- Left column: Song List with Plus Icon -->
+    <div class="left-column">
+        <h2>All Songs</h2>
+        <ul id="song-list">
+            <% songInfo.forEach(song => { %>
+                <li>
+                    <img src="<%= song.album_cover_link %>" alt="Album Cover" width="50">
+                    <p><%= song.title %> by <%= song.artist %></p>
+                    <button onclick="addToPlaylist('<%= song.id %>', '<%= song.title %>', '<%= song.artist %>')">+</button>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+    
+    <!-- Right column: Playlist with Songs -->
+    <div class="right-column">
+        <h2>My Playlist</h2>
+        <ul id="playlist">
+            <!-- Playlist songs will be added here -->
+        </ul>
+        <button onclick="savePlaylist()">Save Playlist</button>
+    </div>
+
+    <script>
+        let playlist = []; // To store the details of the songs added to the playlist
+
+        // Function to add song to playlist
+        function addToPlaylist(songId, songTitle, songArtist) {
+            // Check if song is already in the playlist
+            if (!playlist.some(song => song.id === songId)) {
+                playlist.push({ id: songId, title: songTitle, artist: songArtist });  // Add song details to playlist
+                const songElement = document.createElement('li');
+                songElement.innerHTML = `<strong>${songTitle}</strong> by ${songArtist} <button onclick="removeFromPlaylist(${songId})">Remove</button>`;  // Display song title and artist
+                document.getElementById('playlist').appendChild(songElement);
+            }
+        }
+
+        // Function to remove song from playlist
+        function removeFromPlaylist(songId) {
+            // Remove song from the playlist array
+            playlist = playlist.filter(song => song.id !== songId);
+            // Remove the song element from the UI
+            const songElement = document.querySelector(`li:contains('Song ID: ${songId}')`);
+            if (songElement) {
+                songElement.remove();
+            }
+        }
+
+        // Function to save the playlist (send to server)
+        function savePlaylist() {
+            if (playlist.length > 0) {
+                // Send the playlist to the server (you can change this to send data via a form or AJAX)
+                fetch('/playlists', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ playlist: playlist })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Playlist saved!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                alert('Please add songs to your playlist!');
+            }
+        }
+    </script>
+</body>
+</html>

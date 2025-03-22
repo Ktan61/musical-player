@@ -4,10 +4,11 @@ import pg from "pg";
 const app = express();
 const port = 3000;
 
-// Set EJS as the view engine (for rendering HTML templates)
+
+// This line tells Express to use EJS for rendering views (HTML templates)
 app.set('view engine', 'ejs');
 
-// Database connection setup
+// Database connection
 const db = new pg.Client({
     user: "postgres",  
     host: "localhost", 
@@ -17,9 +18,8 @@ const db = new pg.Client({
 });
 db.connect();  // Establish the connection to the database
 
-app.use(express.urlencoded({ extended: true }));  // Middleware to parse form data (URL-encoded)
 
-app.use(express.static('public'));  // Serve static files from 'public' folder (e.g., CSS)
+app.use(express.urlencoded({ extended: true }));
 
 // Function to fetch song data from the database
 async function testFunction() {
@@ -28,12 +28,15 @@ async function testFunction() {
     return songInfo;  // Return the song data
 }
 
+
+// This allows files in the 'public' folder for CSS
+app.use(express.static('public'));
+
 // ==========================================
 // USER FLOW: HOMEPAGE ROUTE AND INTERACTION
 // ==========================================
 
 // Homepage Route (Display songs)
-// Route: '/'
 app.get("/", async (req, res) => {
     try {
         // Query the 'songlist' table to fetch all songs
@@ -41,8 +44,10 @@ app.get("/", async (req, res) => {
         const songInfo = result.rows;  // Get the rows of song data from the query
         
         // Render the 'index.ejs' page and pass the song data to it
-        res.render('index', { songInfo });  // Display all songs on the homepage
+        // Display all songs on the homepage
+        res.render('index', { songInfo });
     } catch (err) {
+        // If an error occurs
         console.error('Error fetching songs:', err);
         res.status(500).send('Server Error');
     }
@@ -54,7 +59,7 @@ app.get("/", async (req, res) => {
 
 // Music player page - Display specific song
 // Route: '/player/:songId'
-// ':songId' is a URL parameter to fetch a specific song by ID
+// The ':songId' in the route is a parameter that will be used to fetch a specific song by ID
 app.get('/player/:songId', async (req, res) => {
     const { songId } = req.params;  // Extract the 'songId' from the URL
     try {
@@ -63,8 +68,10 @@ app.get('/player/:songId', async (req, res) => {
         const song = result.rows[0];  // Get the song data from the result
         
         // Render the 'player.ejs' page and pass the song data to it
-        res.render('player', { song });  // Show the music player page for the selected song
+        // Show the music player page for the selected song
+        res.render('player', { song });
     } catch (err) {
+        // If an error occurs
         console.error('Error fetching song:', err);
         res.status(500).send('Server Error');
     }
@@ -81,11 +88,15 @@ app.get('/browse', async (req, res) => {
     try {
         // Query the 'songlist' table to fetch all songs
         const result = await db.query('SELECT * FROM songlist');
+        
+        // If no songs are found, display a dummy song for testing purposes
         const songInfo = result.rows.length ? result.rows : [{ title: 'Sample Song', artist: 'Unknown', album: 'Sample Album' }];
         
         // Render the 'browse.ejs' page and pass the song data to it
+        // Allow users to browse and select songs to add to playlists or play
         res.render('browse', { songInfo });
     } catch (err) {
+        // If an error occurs
         console.error('Error fetching songs:', err);
         res.status(500).send('Server Error');
     }
@@ -102,11 +113,15 @@ app.get('/create-playlist', async (req, res) => {
     try {
         // Query the 'songlist' table to fetch all songs
         const result = await db.query('SELECT * FROM songlist');
+        
+        // If no songs are found, display a dummy song for testing purposes
         const songInfo = result.rows.length ? result.rows : [{ title: 'Sample Song', artist: 'Unknown', album: 'Sample Album' }];
         
         // Render the 'create_playlist.ejs' page and pass the song data to it
+        // Allow users to create a playlist by selecting songs
         res.render('create_playlist', { songInfo });
     } catch (err) {
+        // If an error occurs
         console.error('Error fetching songs:', err);
         res.status(500).send('Server Error');
     }
@@ -123,11 +138,15 @@ app.get('/profile', async (req, res) => {
     try {
         // Query the 'playlists' table to fetch all playlists for the user
         const result = await db.query('SELECT * FROM playlists');
+        
+        // If no playlists are found, display a dummy playlist for testing purposes
         const playlists = result.rows.length ? result.rows : [{ id: 1, name: 'Sample Playlist' }];
         
         // Render the 'profile.ejs' page and pass the playlist data to it
+        // Display the user's playlists in the profile page
         res.render('profile', { playlists });
     } catch (err) {
+        // If an error occurs
         console.error('Error fetching playlists:', err);
         res.status(500).send('Server Error');
     }
@@ -139,24 +158,25 @@ app.get('/profile', async (req, res) => {
 
 // Create new playlist (POST)
 // Route: '/playlists'
-// This route handles the creation of a new playlist and saving it in the database
+// This route handles the creation of a new playlist by saving it to the database
 app.post('/playlists', async (req, res) => {
-  const { name, playlist } = req.body;  // 'name' is the playlist name, 'playlist' is an array of song IDs
+  const { name, playlist } = req.body;  // Get playlist name and songs from the request body
   try {
-    // Insert the new playlist into the 'playlists' table
-    const result = await db.query('INSERT INTO playlists (name) VALUES ($1) RETURNING *', [name]);
-    const newPlaylist = result.rows[0];  // Get the newly created playlist data
+      // Insert the new playlist into the 'playlists' table
+      const result = await db.query('INSERT INTO playlists (name) VALUES ($1) RETURNING *', [name]);
+      const newPlaylist = result.rows[0];  // Get the new playlist data
 
-    // Insert the selected songs into the 'playlist_songs' table
-    for (const songId of playlist) {
-      await db.query('INSERT INTO playlist_songs (playlist_id, song_id) VALUES ($1, $2)', [newPlaylist.id, songId]);
-    }
+      // Add the selected songs to the 'playlist_songs' table
+      playlist.forEach(async (songId) => {
+          await db.query('INSERT INTO playlist_songs (playlist_id, song_id) VALUES ($1, $2)', [newPlaylist.id, songId]);
+      });
 
-    // Redirect to the profile page to show the newly created playlist
-    res.redirect('/profile');
+      // Return a success message after saving the playlist
+      res.json({ message: 'Playlist saved successfully!' });
   } catch (err) {
-    console.error('Error creating playlist:', err);
-    res.status(500).send('Server Error');
+      // If an error occurs
+      console.error('Error creating playlist:', err);
+      res.status(500).send('Server Error');
   }
 });
 
@@ -178,6 +198,7 @@ app.post('/playlists/:playlistId/songs', async (req, res) => {
         // Redirect to the updated playlist page
         res.redirect(`/playlists/${playlistId}`);
     } catch (err) {
+        // If an error occurs
         console.error('Error adding song to playlist:', err);
         res.status(500).send('Server Error');
     }
@@ -191,7 +212,7 @@ app.post('/playlists/:playlistId/songs', async (req, res) => {
 // Route: '/playlist/:playlistId'
 // This route displays the songs in a specific playlist
 app.get('/playlist/:playlistId', async (req, res) => {
-  const { playlistId } = req.params;  // Get the playlistId from the URL parameters
+  const { playlistId } = req.params;  // Get the playlistId from the URL
   try {
       // Query to get the songs in the specific playlist
       const result = await db.query(
@@ -203,18 +224,43 @@ app.get('/playlist/:playlistId', async (req, res) => {
       
       const songsInPlaylist = result.rows; // Array of songs in the playlist
       
-      // Fetch the playlist name for display
+      // Fetch the playlist name for display (optional, depending on your design)
       const playlistResult = await db.query('SELECT * FROM playlists WHERE id = $1', [playlistId]);
       const playlist = playlistResult.rows[0]; // Playlist data
       
       // Render the 'profile_playlist.ejs' template and pass the songs and playlist details
       res.render('profile_playlist', { songsInPlaylist, playlist });
   } catch (error) {
+      // If an error occurs, log it and send a server error response
       console.error('Error fetching playlist data:', error);
       res.status(500).send('Error fetching playlist');
   }
 });
 
+app.post('/playlists', async (req, res) => {
+  const { name, playlist } = req.body;  // Get playlist name and songs from the request body
+  try {
+      // 1. Insert the new playlist into the 'playlists' table
+      const result = await db.query('INSERT INTO playlists (name) VALUES ($1) RETURNING *', [name]);
+      const newPlaylist = result.rows[0];  // Get the newly created playlist's data
+
+      // 2. Add songs to the playlist_songs table
+      // We loop through the array of song IDs and add each to the playlist
+      for (const songId of playlist) {
+          await db.query('INSERT INTO playlist_songs (playlist_id, song_id) VALUES ($1, $2)', [newPlaylist.id, songId]);
+      }
+
+      // Return a success message after saving the playlist
+      res.json({ message: 'Playlist saved successfully!', playlistId: newPlaylist.id });
+  } catch (err) {
+      // If an error occurs, log it and send a server error response
+      console.error('Error creating playlist:', err);
+      res.status(500).send('Server Error');
+  }
+});
+
+
+// Listen to requests on the specified port
 // Start the server on the specified port (3000)
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
