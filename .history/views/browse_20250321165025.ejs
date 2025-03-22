@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Music</title>
+    <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+    <div class="browse-page">
+        <button class="go-back-btn" onclick="window.location.href='/'">Go Back to Home</button>
+        
+        <div class="content">
+            <!-- Left column: Song List -->
+            <div class="left-column">
+                <h2>All Songs</h2>
+                <ul id="song-list">
+                    <% songInfo.forEach(song => { %>
+                        <li>
+                            <img src="<%= song.album_cover_link %>" alt="Album Cover" width="50">
+                            <p><%= song.title %> by <%= song.artist %></p>
+                            <button onclick="playSong('<%= song.song_link %>')">Play</button>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+            
+            <!-- Right column: Music Player -->
+            <div class="right-column">
+                <h2>Now Playing</h2>
+                <audio id="audio-player" controls>
+                    <source id="song-source" src="" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function playSong(songLink) {
+            document.getElementById('song-source').src = songLink;
+            document.getElementById('audio-player').load();
+            document.getElementById('audio-player').play();
+        }
+    </script>
+</body>
+</html>

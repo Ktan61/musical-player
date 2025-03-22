@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Playlist</title>
+</head>
+<body>
+    <h1>Create New Playlist</h1>
+    <button onclick="window.location.href='/'">Go Back to Home</button>
+    <ul>
+        <% songInfo.forEach(song => { %>
+            <li>
+                <p><%= song.title %> by <%= song.artist %></p>
+                <button onclick="addSongToPlaylist('<%= song.id %>')">+</button>
+            </li>
+        <% }) %>
+    </ul>
+    <script>
+        function addSongToPlaylist(songId) {
+            // Add the song to the playlist (e.g., add it to a playlist array)
+            console.log('Adding song ID:', songId);
+        }
+    </script>
+</body>
+</html>

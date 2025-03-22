@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical Player</title>
+    <link rel="stylesheet" href="/styles.css"> 
+</head>
+<body>
+    <h1>Musical Player</h1>
+    <ul>
+        <% songInfo.forEach(song => { %>
+            <li>
+                <strong><%= song.title %></strong> by <%= song.artist %> from the album <%= song.album %> 
+                (<%= song.release_year %>)
+                <br>
+                <a href="/player/<%= song.id %>">Play</a>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>

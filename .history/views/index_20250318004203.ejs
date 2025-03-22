@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical Player</title>
+</head>
+<body>
+    <h1>Musical Player</h1>
+    <ul>
+        <% songInfo.forEach(song => { %>
+            <li>
+                <strong><%= song.title %></strong> by <%= song.artist %> from <%= song.album %> 
+                (<%= song.release_year %>)
+                <br>
+                <!-- Link to the Music Player page -->
+                <a href="/player/<%= song.id %>">Play</a>
+            </li>
+        <% }) %>
+    </ul>
+
+    <br>
+    <a href="/playlists">Manage Playlists</a>
+    <br>
+    <a href="/profile">Go to Your Profile</a>
+</body>
+</html>
