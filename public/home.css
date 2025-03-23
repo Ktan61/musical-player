@@ -1,0 +1,60 @@
+body {
+    background-color: #1C1B1B; /* Dark Background */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Title Styling */
+h1 {
+    font-size: 3rem;
+    color: var(--pink);
+    margin-bottom: 50px;
+}
+
+/* Container for the boxes */
+.button-container {
+    display: flex;
+    gap: 40px;
+}
+
+/* General Style for Navigation Boxes */
+.nav-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: black;
+    transition: transform 0.3s;
+}
+
+/* Different Colors for Each Box */
+.yellow-box {
+    background-color: var(--yellow);
+}
+
+.green-box {
+    background-color: var(--green);
+}
+
+.blue-box {
+    background-color: var(--blue);
+}
+
+/* Hover Effect */
+.nav-box:hover {
+    transform: scale(1.05);
+}
