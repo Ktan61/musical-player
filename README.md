@@ -6,7 +6,8 @@
 - calls in index.js, page setups and routing
 
 ## Pia Mendoza
-- made create playlist page: added new playlist to profile 
+- made create playlist page
+- added new playlist created to profile 
 - home page styling
 - designed hifi create playlist page
 
