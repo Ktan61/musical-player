@@ -71,3 +71,43 @@ h1 {
 .nav-box:hover {
     transform: scale(1.10);
 }
+
+
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .title-icon {
+        width: 40px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-box {
+        width: 220px;
+        height: 220px;
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .title-icon {
+        width: 30px;
+    }
+
+    .button-container {
+        gap: 15px;
+    }
+
+    .nav-box {
+        width: 180px;
+        height: 180px;
+    }
+}
