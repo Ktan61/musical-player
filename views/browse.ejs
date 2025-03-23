@@ -15,27 +15,30 @@
 
       <div class="content">
         <!-- Left column: Song List -->
-        <div class="left-column">
+        <div class="songs-column">
           <h2>All Songs</h2>
           <ul id="song-list">
             <% if (Array.isArray(songInfo)) { %> <% songInfo.forEach(song => {
             %> <% if (song.song_link && song.album_cover_link) { %>
-                <li>
-                    <button
-                      onclick="playSong('<%= encodeURI(song.song_link.replace('open.spotify.com', 'open.spotify.com/embed')) %>')"
-                      class="song-button"
-                    >
-                    <img
+            <li>
+              <button
+                onclick="playSong('<%= encodeURI(song.song_link.replace(`open.spotify.com`, `open.spotify.com/embed`)) %>', this)"
+                class="song-button"
+              >
+                <div class="button-main-info">
+                  <img
                     src="<%= song.album_cover_link %>"
                     alt="Album Cover"
                     width="100"
                   />
                   <div class="song-info">
-                    <p><%= song.title %></p>
-                    <p><%= song.artist %></p>
+                    <p class="song-title"><%= song.title %></p>
+                    <p class="artist"><%= song.artist %></p>
                   </div>
-                    </button>
-                  </li>
+                </div>
+                <p class="three-dots">&#8943;</p>
+              </button>
+            </li>
             <% } %> <% }) %> <% } else { %>
             <p>No songs available.</p>
             <% } %>
@@ -43,24 +46,17 @@
         </div>
 
         <!-- Right column: Music Player -->
-        <div class="right-column">
-            <h2>Now Playing</h2>
-            <div id="player-container">
-              <p id="no-song-message">You are currently not playing any songs.</p>
-            </div>
+        <div class="playing-column">
+          <h2>In Queue</h2>
+          <div id="player-container">
+            <p id="no-song-message">You are currently not playing any songs.</p>
           </div>
-        </div>
-      </div>
-
-        <div class="right-column">
-          <h2>Now Playing</h2>
-          <div id="player-container"></div>
         </div>
       </div>
     </div>
 
     <script>
-      function playSong(songLink) {
+      function playSong(songLink, button) {
         const playerContainer = document.getElementById("player-container");
 
         if (
@@ -85,10 +81,11 @@
 
         playerContainer.appendChild(iframe);
 
-        function stopPlayback() {
-        const playerContainer = document.getElementById("player-container");
-        playerContainer.innerHTML = '<p id="no-song-message">You are currently not playing any songs.</p>';
-      }
+        document
+          .querySelectorAll(".song-button")
+          .forEach((btn) => btn.classList.remove("active"));
+
+        button.classList.add("active");
       }
     </script>
   </body>
