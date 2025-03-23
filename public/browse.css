@@ -24,6 +24,7 @@ body {
     width: 100%;
     background-color: transparent;
     color: var(--black);
+    border-radius: 15px;
 }
 
 .song-info {

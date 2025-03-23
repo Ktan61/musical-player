@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/profile.css">
 </head>
 <body>
     <div class="profile-page">
@@ -12,14 +13,15 @@
         
         <div class="content">
             <!-- Left column: Profile Picture -->
-            <div class="left-column">
-                <h2>Your Profile</h2>
-                <img src="profile.jpg" alt="Profile Picture" width="150">
+            <div class="left-profile">
+                <img src="images/daddy.png" alt="Profile Picture" width="350">
+                <h3 class="user-name">Lord Bridgerton</h3>
+                <p class="user-handle">User01</p>
             </div>
             
             <!-- Right column: Playlists -->
-            <div class="right-column">
-                <h2>Saved Playlists</h2>
+            <div class="right-profile">
+                <h2>My Playlists</h2>
                 <ul>
                     <% playlists.forEach(playlist => { %>
                         <li>
