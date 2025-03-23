@@ -22,7 +22,10 @@
             %> <% if (song.song_link && song.album_cover_link) { %>
             <li>
               <button
-                onclick="playSong('<%= encodeURI(song.song_link.replace(`open.spotify.com`, `open.spotify.com/embed`)) %>', this)"
+                onclick="playSong('<%= encodeURI(song.song_link.replace(`open.spotify.com`, `open.spotify.com/embed`)) %>', 
+                '<%= song.album %>', 
+                '<%= song.release_year %>',
+                this)"
                 class="song-button"
               >
                 <div class="button-main-info">
@@ -56,7 +59,7 @@
     </div>
 
     <script>
-      function playSong(songLink, button) {
+      function playSong(songLink, albumName, releaseYear, button) {
         const playerContainer = document.getElementById("player-container");
 
         if (
@@ -80,6 +83,14 @@
         iframe.loading = "lazy";
 
         playerContainer.appendChild(iframe);
+
+        const albumInfo = document.createElement("div");
+  albumInfo.classList.add("album-info");
+  albumInfo.innerHTML = `
+    <p class="album-name"><span class="bold">FROM</span> ${albumName} | ${releaseYear}</p>
+  `;
+  
+  playerContainer.appendChild(albumInfo);
 
         document
           .querySelectorAll(".song-button")

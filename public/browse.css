@@ -10,6 +10,10 @@ button:hover {
     color: var(--light-green);
 }
 
+h2 {
+    margin-bottom: 1.5rem;
+}
+
 .song-button {
     display: flex;
     width: 100%;
@@ -66,4 +70,12 @@ button:hover {
 .song-button:hover .three-dots,
 .song-button.active .three-dots {
   display: block;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+iframe {
+    margin-bottom: 2rem;
 }
