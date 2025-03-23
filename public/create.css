@@ -1,0 +1,121 @@
+body {
+    background-color: var(--yellow);
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+}
+
+button:hover {
+    color: var(--dark-yellow);
+}
+
+.create-playlist-page {
+    padding: 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.songs-column, .playlist-column {
+    width: 45%;
+}
+
+.song-button {
+    display: flex;
+    width: 100%;
+    background-color: var(--light-yellow);
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+    color: var(--black);
+    text-align: left;
+}
+
+.song-button:hover {
+    background-color: var(--light-yellow);
+}
+
+
+.button-main-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+}
+
+.song-title {
+    font-weight: 600;
+}
+
+.artist {
+    font-size: 0.85em;
+}
+
+.save-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    border-radius: 100px;
+    background-color: #161515;
+    color: #fff;
+    min-height: 50px;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    border-radius: 100px;
+}
+
+.input-container {
+    margin-bottom: 1rem;
+}
+
+.plus-sign, .minus-sign {
+    background-color: var(--black);
+    color: var(--yellow);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.plus-sign:hover, .minus-sign:hover {
+    background-color: var(--dark-yellow);
+    color: var(--black);
+}
+
+@media (max-width: 992px) {
+
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .songs-column, .playlist-column {
+        width: 100%;
+    }
+}

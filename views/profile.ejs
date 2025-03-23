@@ -25,19 +25,20 @@
                 <h1 class="right-heading">My Playlists</h1>
 
                 <div class="right-playlist">
-
                     <% playlists.forEach(playlist => { %>
-                            <a class="playlist-link" href="/playlist/<%= playlist.id %>">
-                                <p class="playlist-song"><%= playlist.name %></p>
-                                <span class="play-btn">
-                                    <i class="material-icons">play_arrow</i>
-                                </span>  
-                            </a>
+                        <a class="playlist-link" href="/playlist/<%= playlist.id %>">
+                            <p class="playlist-song"><%= playlist.name %></p>
+                            <span class="play-btn">
+                                <i class="material-icons">play_arrow</i>
+                            </span>  
+                        </a>
                     <% }) %>
-    
                 </div>
             </div>
+
         </div>
     </div>
 </body>
 </html>
+
+
