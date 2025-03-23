@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Browse Music</title>
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/browse.css" />
   </head>
   <body>
     <div class="browse-page">
@@ -19,19 +20,22 @@
           <ul id="song-list">
             <% if (Array.isArray(songInfo)) { %> <% songInfo.forEach(song => {
             %> <% if (song.song_link && song.album_cover_link) { %>
-            <li>
-              <img
-                src="<%= song.album_cover_link %>"
-                alt="Album Cover"
-                width="50"
-              />
-              <p><%= song.title %> by <%= song.artist %></p>
-              <button
-                onclick="playSong('<%= encodeURI(song.song_link.replace('open.spotify.com', 'open.spotify.com/embed')) %>')"
-              >
-                Play
-              </button>
-            </li>
+                <li>
+                    <button
+                      onclick="playSong('<%= encodeURI(song.song_link.replace('open.spotify.com', 'open.spotify.com/embed')) %>')"
+                      class="song-button"
+                    >
+                    <img
+                    src="<%= song.album_cover_link %>"
+                    alt="Album Cover"
+                    width="100"
+                  />
+                  <div class="song-info">
+                    <p><%= song.title %></p>
+                    <p><%= song.artist %></p>
+                  </div>
+                    </button>
+                  </li>
             <% } %> <% }) %> <% } else { %>
             <p>No songs available.</p>
             <% } %>
