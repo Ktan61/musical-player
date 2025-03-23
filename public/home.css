@@ -1,5 +1,5 @@
 body {
-    background-color: #1C1B1B; /* Dark Background */
+    background-color: var(--black);
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -14,20 +14,33 @@ body {
     text-align: center;
 }
 
-/* Title Styling */
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+
 h1 {
     font-size: 3rem;
     color: var(--pink);
     margin-bottom: 50px;
 }
 
-/* Container for the boxes */
+
+.title-icon {
+    width: 50px; 
+    height: auto;
+}
+
+
 .button-container {
     display: flex;
     gap: 40px;
 }
 
-/* General Style for Navigation Boxes */
+
 .nav-box {
     display: flex;
     align-items: center;
@@ -41,7 +54,7 @@ h1 {
     transition: transform 0.3s;
 }
 
-/* Different Colors for Each Box */
+
 .yellow-box {
     background-color: var(--yellow);
 }
@@ -54,7 +67,7 @@ h1 {
     background-color: var(--blue);
 }
 
-/* Hover Effect */
+
 .nav-box:hover {
-    transform: scale(1.05);
+    transform: scale(1.10);
 }
