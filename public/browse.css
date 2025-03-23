@@ -79,3 +79,19 @@ h2 {
 iframe {
     margin-bottom: 2rem;
 }
+
+@media (max-width: 992px) {
+
+    .content {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .songs-column {
+        width: 100%;
+    }
+
+    .playing-column {
+        width: 100%;
+    }
+}
