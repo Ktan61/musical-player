@@ -1,0 +1,97 @@
+body {
+    background-color: var(--pink);
+}
+
+button {
+    color: var(--pink);
+}
+
+button:hover {
+    color: var(--light-pink);
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+}
+
+.song-button {
+    display: flex;
+    width: 100%;
+    background-color: transparent;
+    color: var(--black);
+    border-radius: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-main-info {
+    display: flex;
+    align-items: center;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3em;
+}
+
+.song-info p {
+    text-align: left;
+}
+
+.song-title {
+    font-weight: 600;
+}
+
+.artist {
+    font-size: 0.8em;
+}
+
+.song-button:hover {
+    background-color: var(--dark-pink);
+    color: var(--black);
+}
+
+.song-button.active {
+    background-color: var(--light-pink);
+}  
+
+.songs-column, .playing-column {
+    width: 50%;                    
+    padding: 20px;
+}
+
+.three-dots {
+    display: none;
+    font-size: 1.5rem;
+}
+
+.song-button:hover .three-dots,
+.song-button.active .three-dots {
+  display: block;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+iframe {
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 992px) {
+
+    .content {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .songs-column {
+        width: 100%;
+    }
+
+    .playing-column {
+        width: 100%;
+    }
+}
