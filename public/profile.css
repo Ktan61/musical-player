@@ -1,0 +1,52 @@
+/* Global Styles */
+h1, h2, h3, h4, h5, h6 {
+    margin:none;
+    padding: none;
+}
+
+button {
+    color: var(--blue);
+}
+
+button:hover {
+    color: var(--light-blue);
+}
+
+body {
+    background-color: #7DDBD8;
+}
+
+.left-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 50%;        
+    border: 1px yellow solid         
+}
+
+.user-name {
+    font-size: 1.5em;
+    color: var(--black);
+    border: 1px red solid
+}
+
+.user-handle {
+    font-size: 1rem;
+    color: var(--dark-blue);
+    border: 1px red solid;
+}
+
+.left-profile img {
+}
+
+.right-profile {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 20px;
+    border: 1px yellow solid         
+
+}
+

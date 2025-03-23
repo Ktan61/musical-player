@@ -1,7 +1,35 @@
 /* Global Styles */
+:root {
+    --black: #161515; 
+    --white: #FFFFFF;  
+    --blue: #7DDBD8;  
+    --dark-blue: #47AFAB;
+    --light-blue: #C6FFFD;
+    --green: #A5E7AC;
+    --dark-green: #98D49E;
+    --light-green: #B9FFC1;
+    --pink: #E48585;
+    --dark-pink: #C67777;
+    --light-pink: #FF9797;
+    --yellow: #FFF8B8;
+    --dark-yellow: #FFF38C;
+    --light-yellow: #E5DEA3;
+}
+
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    padding: 2vh 10%;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
 }
@@ -22,20 +50,23 @@ button {
     cursor: pointer;
     font-size: 16px;
     border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
+    border-radius: 100px;
+    background-color: #161515;
+    color: #fff;
+    min-height: 50px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    /*background-color: #3d3d3d;*/
 }
 
 /* Content Layout */
 .content {
     display: flex;                
-    justify-content: space-between;
-    margin: 20px;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    padding: 20px 0px 0px;
 }
 
 /* Left and Right Columns */
