@@ -12,13 +12,13 @@ const db = new pg.Client({
     user: "postgres",  
     host: "localhost", 
     database: "musical-player", 
-    password: "marno",  // Database password
+    password: "1234",  // Database password
     port: 5432,        
 });
 db.connect();  // Establish the connection to the database
 
 app.use(express.urlencoded({ extended: true }));  // Middleware to parse form data (URL-encoded)
-
+app.use(express.json());
 app.use(express.static('public'));  // Serve static files from 'public' folder (e.g., CSS)
 
 // Function to fetch song data from the database
@@ -115,50 +115,67 @@ app.get('/create-playlist', async (req, res) => {
 // ==========================================
 // USER FLOW: USER PROFILE PAGE
 // ==========================================
-
-// User profile page
-// Route: '/profile'
-// This page shows the user's playlists
 app.get('/profile', async (req, res) => {
     try {
-        // Query the 'playlists' table to fetch all playlists for the user
-        const result = await db.query('SELECT * FROM playlists');
-        const playlists = result.rows.length ? result.rows : [{ id: 1, name: 'Sample Playlist' }];
-        
-        // Render the 'profile.ejs' page and pass the playlist data to it
-        res.render('profile', { playlists });
+      const userId = 1;
+  
+      // Fetch all playlists for the specific user
+      const playlistResult = await db.query(
+        'SELECT * FROM playlists WHERE user_id = $1',
+        [userId]
+      );
+      const playlists = playlistResult.rows;
+  
+      // Render the 'profile.ejs' page with the playlists
+      res.render('profile', { playlists });
     } catch (err) {
-        console.error('Error fetching playlists:', err);
-        res.status(500).send('Server Error');
+      console.error('Error fetching playlists:', err);
+      res.status(500).send('Server Error');
     }
-});
+  });
+  
+  
 
 // ==========================================
 // USER FLOW: CREATE NEW PLAYLIST (POST)
 // ==========================================
-
-// Create new playlist (POST)
-// Route: '/playlists'
-// This route handles the creation of a new playlist and saving it in the database
 app.post('/playlists', async (req, res) => {
-  const { name, playlist } = req.body;  // 'name' is the playlist name, 'playlist' is an array of song IDs
-  try {
-    // Insert the new playlist into the 'playlists' table
-    const result = await db.query('INSERT INTO playlists (name) VALUES ($1) RETURNING *', [name]);
-    const newPlaylist = result.rows[0];  // Get the newly created playlist data
-
-    // Insert the selected songs into the 'playlist_songs' table
-    for (const songId of playlist) {
-      await db.query('INSERT INTO playlist_songs (playlist_id, song_id) VALUES ($1, $2)', [newPlaylist.id, songId]);
+    console.log("Request Headers:", req.headers);  // Logs headers to confirm JSON is sent
+    console.log("Request Method:", req.method);    // Confirms if it's a POST request
+    console.log("Raw Request Body:", req.body);    // Logs the raw request body
+  
+    const { name, playlist } = req.body;
+  
+    if (!name || !playlist || playlist.length === 0) {
+      console.log("Invalid Request: Name or Playlist is missing.");
+      return res.status(400).json({ message: 'Playlist is empty or name is missing.' });
     }
-
-    // Redirect to the profile page to show the newly created playlist
-    res.redirect('/profile');
-  } catch (err) {
-    console.error('Error creating playlist:', err);
-    res.status(500).send('Server Error');
-  }
-});
+  
+    try {
+      const userId = 1;
+  
+      const result = await db.query(
+        'INSERT INTO playlists (name, user_id) VALUES ($1, $2) RETURNING id',
+        [name, userId]
+      );
+  
+      const playlistId = result.rows[0].id;
+  
+      for (const song of playlist) {
+        await db.query(
+          'INSERT INTO playlist_songs (playlist_id, song_id) VALUES ($1, $2)',
+          [playlistId, song.id]
+        );
+      }
+  
+      res.status(200).json({ message: 'Playlist saved successfully!' });
+    } catch (err) {
+      console.error('Error saving playlist to database:', err);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+  
+  
 
 // ==========================================
 // USER FLOW: ADD SONG TO PLAYLIST (POST)
@@ -219,3 +236,6 @@ app.get('/playlist/:playlistId', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+
