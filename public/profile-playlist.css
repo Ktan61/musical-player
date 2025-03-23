@@ -1,13 +1,13 @@
 body {
-    background-color: var(--green);
+    background-color: var(--pink);
 }
 
 button {
-    color: var(--green);
+    color: var(--pink);
 }
 
 button:hover {
-    color: var(--light-green);
+    color: var(--light-pink);
 }
 
 h2 {
@@ -49,12 +49,12 @@ h2 {
 }
 
 .song-button:hover {
-    background-color: var(--dark-green);
+    background-color: var(--dark-pink);
     color: var(--black);
 }
 
 .song-button.active {
-    background-color: var(--light-green);
+    background-color: var(--light-pink);
 }  
 
 .songs-column, .playing-column {
