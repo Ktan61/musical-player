@@ -62,7 +62,7 @@ h1{
     padding: 25px;
     width: 100%;
     max-height: 70vh;
-    overflow-y: scroll; 
+    overflow-y: auto; 
     scrollbar-color: var(--light-blue) var(--dark-blue);
     scrollbar-width: thin;   
 }
@@ -86,12 +86,15 @@ h1{
     background-color: var(--dark-blue);
     text-decoration: none;
     color: var(--black);
+    transition: background-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
 }
 
 .playlist-link:hover {
     background-color: var(--light-blue);
-    transform: scale(1.02);
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
 }
+
 
 .playlist-song {
     text-wrap: wrap;

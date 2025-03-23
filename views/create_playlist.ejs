@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Playlist</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/create.css">
 </head>
@@ -15,22 +16,24 @@
             <!-- Left column: All Songs -->
             <div class="songs-column">
                 <h2>All Songs</h2>
-                <ul id="song-list">
-                    <% songInfo.forEach(song => { %>
-                        <li>
-                            <div class="song-button">
-                                <div class="button-main-info">
-                                    <img src="<%= song.album_cover_link %>" alt="Album Cover" width="80" />
-                                    <div class="song-info">
-                                        <p class="song-title"><%= song.title %></p>
-                                        <p class="artist"><%= song.artist %></p>
+                <div class="songs-scroll">
+                    <ul id="song-list">
+                        <% songInfo.forEach(song => { %>
+                            <li>
+                                <div class="song-button">
+                                    <div class="button-main-info">
+                                        <img src="<%= song.album_cover_link %>" alt="Album Cover" width="80" />
+                                        <div class="song-info">
+                                            <p class="song-title"><%= song.title %></p>
+                                            <p class="artist"><%= song.artist %></p>
+                                        </div>
                                     </div>
+                                    <div class="plus-sign" onclick="addToPlaylist('<%= song.id %>', '<%= song.title %>', '<%= song.artist %>', '<%= song.album_cover_link %>')">+</div>
                                 </div>
-                                <div class="plus-sign" onclick="addToPlaylist('<%= song.id %>', '<%= song.title %>', '<%= song.artist %>', '<%= song.album_cover_link %>')">+</div>
-                            </div>
-                        </li>
-                    <% }) %>
-                </ul>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>   
             </div>
 
             <!-- Right column: Playlist Creation -->

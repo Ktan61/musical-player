@@ -29,6 +29,14 @@ h2 {
     align-items: center;
 }
 
+.songs-scroll {
+    padding-right: 1rem;
+    max-height: 70vh;
+    overflow-y: auto; 
+    scrollbar-color: var(--light-pink) var(--dark-pink);
+    scrollbar-width: thin;  
+}
+
 .song-info {
     display: flex;
     flex-direction: column;

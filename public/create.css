@@ -21,7 +21,15 @@ button:hover {
 }
 
 .songs-column, .playlist-column {
-    width: 45%;
+    width: 47%;
+}
+
+.songs-scroll {
+    padding-right: 1rem;
+    max-height: 70vh;
+    overflow-y: auto; 
+    scrollbar-color: var(--yellow) var(--light-yellow);
+    scrollbar-width: thin;  
 }
 
 .song-button {
