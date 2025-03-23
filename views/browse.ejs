@@ -1,54 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Browse Music</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
     <div class="browse-page">
-        <button class="go-back-btn" onclick="window.location.href='/'">Go Back to Home</button>
-        
-        <div class="content">
-            <!-- Left column: Song List -->
-            <div class="left-column">
-                <h2>All Songs</h2>
-                <ul id="song-list">
-                    <% songInfo.forEach(song => { %>
-                        <li>
-                            <img src="<%= song.album_cover_link %>" alt="Album Cover" width="50">
-                            <p><%= song.title %> by <%= song.artist %></p>
-                            <button onclick="playSong('<%= song.song_link %>')">Play</button>
-                        </li>
-                    <% }) %>
-                </ul>
-            </div>
-            
-            <!-- Right column: Music Player -->
-            <div class="right-column">
-                <h2>Now Playing</h2>
-                <% songInfo.forEach(song => { %>
-                    <iframe 
-                        style="border-radius:12px"
-                        src="<%= song.song_link.replace('open.spotify.com', 'open.spotify.com/embed') %>"
-                        width="100%" 
-                        height="352" 
-                        frameborder="0" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy"
-                    ></iframe>
-                <% }) %>
-            </div>
+      <button class="go-back-btn" onclick="window.location.href='/'">
+        Go Back to Home
+      </button>
+
+      <div class="content">
+        <!-- Left column: Song List -->
+        <div class="left-column">
+          <h2>All Songs</h2>
+          <ul id="song-list">
+            <% if (Array.isArray(songInfo)) { %> <% songInfo.forEach(song => {
+            %> <% if (song.song_link && song.album_cover_link) { %>
+            <li>
+              <img
+                src="<%= song.album_cover_link %>"
+                alt="Album Cover"
+                width="50"
+              />
+              <p><%= song.title %> by <%= song.artist %></p>
+              <button
+                onclick="playSong('<%= encodeURI(song.song_link.replace('open.spotify.com', 'open.spotify.com/embed')) %>')"
+              >
+                Play
+              </button>
+            </li>
+            <% } %> <% }) %> <% } else { %>
+            <p>No songs available.</p>
+            <% } %>
+          </ul>
         </div>
+
+        <!-- Right column: Music Player -->
+        <div class="right-column">
+            <h2>Now Playing</h2>
+            <div id="player-container">
+              <p id="no-song-message">You are currently not playing any songs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="right-column">
+          <h2>Now Playing</h2>
+          <div id="player-container"></div>
+        </div>
+      </div>
     </div>
 
     <script>
-        function playSong(songLink) {
-            document.getElementById('song-source').src = songLink;
-            document.getElementById('audio-player').load();
-            document.getElementById('audio-player').play();
+      function playSong(songLink) {
+        const playerContainer = document.getElementById("player-container");
+
+        if (
+          !songLink ||
+          !songLink.startsWith("https://open.spotify.com/embed/")
+        ) {
+          alert("Invalid song link.");
+          return;
         }
+
+        playerContainer.innerHTML = "";
+
+        const iframe = document.createElement("iframe");
+        iframe.style.borderRadius = "12px";
+        iframe.src = songLink;
+        iframe.width = "100%";
+        iframe.height = "352";
+        iframe.frameBorder = "0";
+        iframe.allow =
+          "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+        iframe.loading = "lazy";
+
+        playerContainer.appendChild(iframe);
+
+        function stopPlayback() {
+        const playerContainer = document.getElementById("player-container");
+        playerContainer.innerHTML = '<p id="no-song-message">You are currently not playing any songs.</p>';
+      }
+      }
     </script>
-</body>
+  </body>
 </html>
