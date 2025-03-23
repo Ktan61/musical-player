@@ -6,6 +6,7 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/profile.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
     <div class="profile-page">
@@ -21,14 +22,20 @@
             
             <!-- Right column: Playlists -->
             <div class="right-profile">
-                <h2>My Playlists</h2>
-                <ul>
+                <h1 class="right-heading">My Playlists</h1>
+
+                <div class="right-playlist">
+
                     <% playlists.forEach(playlist => { %>
-                        <li>
-                            <a href="/playlist/<%= playlist.id %>"><%= playlist.name %></a>
-                        </li>
+                            <a class="playlist-link" href="/playlist/<%= playlist.id %>">
+                                <p class="playlist-song"><%= playlist.name %></p>
+                                <span class="play-btn">
+                                    <i class="material-icons">play_arrow</i>
+                                </span>  
+                            </a>
                     <% }) %>
-                </ul>
+    
+                </div>
             </div>
         </div>
     </div>
