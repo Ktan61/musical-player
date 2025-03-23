@@ -62,7 +62,7 @@ h1{
     padding: 25px;
     width: 100%;
     max-height: 70vh;
-    overflow-y: scroll; 
+    overflow-y: auto; 
     scrollbar-color: var(--light-blue) var(--dark-blue);
     scrollbar-width: thin;   
 }

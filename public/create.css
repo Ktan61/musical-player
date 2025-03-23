@@ -24,6 +24,14 @@ button:hover {
     width: 45%;
 }
 
+.songs-scroll {
+    padding-right: 1rem;
+    max-height: 70vh;
+    overflow-y: auto; 
+    scrollbar-color: var(--yellow) var(--light-yellow);
+    scrollbar-width: thin;  
+}
+
 .song-button {
     display: flex;
     width: 100%;

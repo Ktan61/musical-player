@@ -7,6 +7,7 @@
     <title>
         <%= playlist.name %> - Playlist
     </title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/profile-playlist.css">
 </head>
@@ -23,33 +24,35 @@
                 </h2>
                 <div class="playlist-container">
                     <% if (songsInPlaylist.length> 0) { %>
-                        <ul id="song-list">
-                            <% songsInPlaylist.forEach(song=> { %>
-                                <% if (song.song_link && song.album_cover_link) { %>
-                                    <li>
-                                        <button onclick="playSong(
-                                                '<%= encodeURI(song.song_link.replace(`open.spotify.com`, `open.spotify.com/embed`)) %>',  
-                                                '<%= song.album %>', 
-                                                '<%= song.release_year %>',
-                                                this
-                                            )" class="song-button">
-                                            <div class="button-main-info">
-                                                <img src="<%= song.album_cover_link %>" alt="Album Cover" width="100">
-                                                <div class="song-info">
-                                                    <p class="song-title">
-                                                        <%= song.title %>
-                                                    </p>
-                                                    <p class="artist">
-                                                        <%= song.artist %>
-                                                    </p>
+                       <div class="songs-scroll">
+                            <ul id="song-list">
+                                <% songsInPlaylist.forEach(song=> { %>
+                                    <% if (song.song_link && song.album_cover_link) { %>
+                                        <li>
+                                            <button onclick="playSong(
+                                                    '<%= encodeURI(song.song_link.replace(`open.spotify.com`, `open.spotify.com/embed`)) %>',  
+                                                    '<%= song.album %>', 
+                                                    '<%= song.release_year %>',
+                                                    this
+                                                )" class="song-button">
+                                                <div class="button-main-info">
+                                                    <img src="<%= song.album_cover_link %>" alt="Album Cover" width="100">
+                                                    <div class="song-info">
+                                                        <p class="song-title">
+                                                            <%= song.title %>
+                                                        </p>
+                                                        <p class="artist">
+                                                            <%= song.artist %>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <p class="three-dots">&#8943;</p>
-                                        </button>
-                                    </li>
-                                    <% } %>
-                                        <% }) %>
-                        </ul>
+                                                <p class="three-dots">&#8943;</p>
+                                            </button>
+                                        </li>
+                                        <% } %>
+                                            <% }) %>
+                            </ul>
+                       </div>
                         <% } else { %>
                             <p>This playlist is empty.</p>
                             <% } %>
